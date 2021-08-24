@@ -15,7 +15,7 @@ public class MoviesDatabase{
         try
         {
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            connect= DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:XE","system","admin");
+            connect= DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE","system","safwan");
         }
         catch(Exception e)
         {

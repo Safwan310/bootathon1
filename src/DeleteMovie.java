@@ -4,67 +4,75 @@
  * and open the template in the editor.
  */
 
-import java.awt.Color;
-import java.awt.Container;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.sql.*;
 import java.awt.event.*;
-import javax.swing.JOptionPane;
-//import bootathon.Admin;
+// import bootathon.Admin;
 /**
  *
  * @author Abilash
  */
-public class DeleteMovie extends JFrame implements ActionListener{
+public class DeleteMovie extends JPanel implements ActionListener{
     Container cont1;
-    JComboBox movieNameDrop;
+    JComboBox<String> movieNameDrop;
     JButton deleteButton,baButton;
     JLabel colon1,movieNameSelect;
+    JPanel deletePanel,deleteButtonPanel;
     DeleteMovie()
     {
-        cont1 = getContentPane();
-        cont1.setLayout(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(400,100,600,600);
+        Font adminFont = new Font(null).deriveFont(25.0f);
+        //cont1.setLayout(null);
+        setSize(950,950);
         setVisible(true);
         
-        movieNameDrop = new JComboBox();
+        movieNameDrop = new JComboBox<String>();
         
-        movieNameSelect = new JLabel("SELECT MOVIE NAME");
-        colon1 = new JLabel(":");
+        movieNameSelect = new JLabel("SELECT MOVIE NAME: ");
+        movieNameSelect.setFont(adminFont);
+
         deleteButton = new JButton("DELETE");
         deleteButton.setBackground(Color.red);
+        deleteButton.setFont(adminFont);
+
         
-        baButton = new JButton("BACK");
-        baButton.setBackground(Color.cyan);
-        colon1.setBounds(300,150,100,30);
-        
-        movieNameSelect.setBounds(100,150,200,30);
+        //movieNameSelect.setBounds(100,150,200,30);
+
+        deleteButton.addActionListener(this);
         //deleteButton.setBounds(150,275,100,30);
         //deleteButton.addActionListener(this);
         
-        deleteButton.setBounds(190,295,100,30);
+        /*deleteButton.setBounds(190,295,100,30);
         baButton.setBounds(200,295,100,30);
         baButton.addActionListener(this);
-        deleteButton.addActionListener(this);
+
         baButton.setBounds(320,295,100,30);
-        movieNameDrop.setBounds(350,150,200,30);
+        movieNameDrop.setBounds(350,150,200,30);*/
+        deletePanel = new JPanel(new BorderLayout());
+        setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(750,750));
+        setBorder(new EmptyBorder(50,10,50,10));
+
         movieNameDrop.addItem("SELECT");
-        add(movieNameDrop);
-        add(movieNameSelect);
-        add(colon1);
-        add(baButton);
-        add(deleteButton);
-        
-        
+        movieNameDrop.setFont(adminFont);
+
+        deletePanel.add(movieNameSelect,BorderLayout.WEST);
+        deletePanel.add(movieNameDrop,BorderLayout.CENTER);
+        deletePanel.setPreferredSize(new Dimension(250,250));
+        deletePanel.setBorder(new EmptyBorder(75,0,75,0));
+
+        deleteButtonPanel = new JPanel();
+        deleteButtonPanel.setLayout(new BorderLayout());
+        deleteButtonPanel.add(deleteButton,BorderLayout.NORTH);
+        deleteButtonPanel.setPreferredSize(new Dimension(150,150));
+        deleteButtonPanel.setBorder(new EmptyBorder(0,250,0,250));
+        add(deletePanel,BorderLayout.NORTH);
+        add(deleteButtonPanel,BorderLayout.CENTER);
         try
         {
             Connection con = MoviesDatabase.getConnection();
-            String query = "select Moviename from Movies";
+            String query = "select moviename from movie";
             PreparedStatement prep = con.prepareStatement(query);
             ResultSet result = prep.executeQuery();
             while(result.next())
@@ -82,9 +90,6 @@ public class DeleteMovie extends JFrame implements ActionListener{
         }
         
     }
-    public static void main(String[] args) {
-        new DeleteMovie();
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -95,15 +100,15 @@ public class DeleteMovie extends JFrame implements ActionListener{
             {
                 String nameMovie = (String) movieNameDrop.getSelectedItem();
                 Connection conn = MoviesDatabase.getConnection();
-                String query = "delete from Movies where Moviename=?";
+                String query = "delete from movie where moviename=?";
                 
-                String query2 = "delete from showInfoTable where Moviename=?";
+                String query2 = "delete from showInfo where moviename=?";
                 PreparedStatement prep = conn.prepareStatement(query);
                 PreparedStatement prep2 = conn.prepareStatement(query2);
-                //prep.setInt(1, id);
-                
+                System.out.println("Connection made and choice obtained: "+nameMovie);
                 prep.setString(1, nameMovie);
                 prep.executeUpdate();
+                System.out.println("Deleting movie");
                 prep2.setString(1, nameMovie);
                 prep2.executeUpdate();
                 conn.setAutoCommit(true);
@@ -114,10 +119,6 @@ public class DeleteMovie extends JFrame implements ActionListener{
             {
                 JOptionPane.showMessageDialog(this,excep.toString());
             }
-        }
-        if(source==baButton)
-        {
-            new Admin();
         }
     }
 }

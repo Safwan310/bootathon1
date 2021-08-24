@@ -133,7 +133,7 @@ public class homepage extends JFrame
                 System.out.println(nowLabel.getText());
                 try {
                     moviebkPage = new movieBookingPage(nowPlayingMap.get(nowLabel.getText()), nowLabel.getText());
-                } catch (IOException ioException) {
+                } catch (IOException | SQLException | ClassNotFoundException ioException) {
                     ioException.printStackTrace();
                 }
                 parent.add(moviebkPage, nowLabel.getText());
@@ -167,7 +167,7 @@ public class homepage extends JFrame
             upcButton.addActionListener(e -> {
                 try {
                     moviebkPage = new movieBookingPage(upComingMap.get(upcLabel.getText()), upcLabel.getText());
-                } catch (IOException ioException) {
+                } catch (IOException | SQLException | ClassNotFoundException ioException) {
                     ioException.printStackTrace();
                 }
                 parent.add(moviebkPage, upcLabel.getText());
