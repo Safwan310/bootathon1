@@ -143,6 +143,7 @@ public class paymentsPage extends JPanel {
 
         ticket.setVisible(true);
         add(ticket);
+        setLayout(new GridLayout(1,1));
         setSize(750,750);
     }
 }
