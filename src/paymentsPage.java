@@ -23,6 +23,7 @@ public class paymentsPage extends JPanel {
         ticket.setLayout(new GridLayout(8,1));
 
         JLabel name = new JLabel("Name: "+obj.getCustomerName());
+        System.out.println(obj.getCustomerName());
         name.setFont(paymentFont);
 
         JLabel movie = new JLabel("Movie: "+obj.getMovieInfo());

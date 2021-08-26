@@ -17,9 +17,7 @@ public class movieBookingPage extends JPanel {
     JPanel mother,movieInfo,dateInfo,timeInfo,screenInfo,home,buttonPanel;
     JButton day1,day2,day3,screen1,screen2,screen3,time1,time2,time3;
     String dayForScreen = "",screenForTime = "";
-    movieBookingPage(String imgPath,String movieName) throws IOException, ClassNotFoundException, SQLException {
-
-        bookingBeans ob = new bookingBeans();
+    movieBookingPage(String imgPath,String movieName,bookingBeans ob) throws IOException, ClassNotFoundException, SQLException {
         ob.setMovieInfo(movieName);
         Font bookingFont = new Font(null).deriveFont(20.0f);
 
@@ -367,6 +365,7 @@ public class movieBookingPage extends JPanel {
         mother.setVisible(true);
         //setSize(750,750);
         setLayout(new GridLayout(1,1));
+
         add(home);
     }
 
