@@ -6,21 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 
-public class homepage extends JFrame
+public class homepage extends JPanel
 {
     JPanel mother,curPanel,upcPanel,parent,home,nav;
     bookingBeans ob = new bookingBeans();
     JLabel current, upcoming,txt1;
     movieBookingPage moviebkPage;
 
-    homepage() throws Exception {
+    homepage(String username) throws Exception {
 
 
         Font bookingFont = new Font(null).deriveFont(20.0f);
 
 
-        ob.setCustomerName("John");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ob.setCustomerName(username);
+        System.out.println(username);
 
         current = new JLabel("Now Playing",JLabel.CENTER);
         current.setForeground(Color.YELLOW);
@@ -132,7 +132,7 @@ public class homepage extends JFrame
             nowButton.addActionListener(e -> {
                 System.out.println(nowLabel.getText());
                 try {
-                    moviebkPage = new movieBookingPage(nowPlayingMap.get(nowLabel.getText()), nowLabel.getText());
+                    moviebkPage = new movieBookingPage(nowPlayingMap.get(nowLabel.getText()), nowLabel.getText(), ob);
                 } catch (IOException | SQLException | ClassNotFoundException ioException) {
                     ioException.printStackTrace();
                 }
@@ -166,7 +166,7 @@ public class homepage extends JFrame
 
             upcButton.addActionListener(e -> {
                 try {
-                    moviebkPage = new movieBookingPage(upComingMap.get(upcLabel.getText()), upcLabel.getText());
+                    moviebkPage = new movieBookingPage(upComingMap.get(upcLabel.getText()), upcLabel.getText(),ob);
                 } catch (IOException | SQLException | ClassNotFoundException ioException) {
                     ioException.printStackTrace();
                 }
@@ -193,13 +193,10 @@ public class homepage extends JFrame
         parent.setVisible(true);
         home.setVisible(true);
         home.add(parent,BorderLayout.CENTER);
+        setLayout(new GridLayout(1,1));
         add(home);
         curPanel.setBackground(Color.BLACK);
         upcPanel.setBackground(Color.BLACK);
-    }
-
-    public static void main(String[] args) throws Exception {
-        new homepage();
     }
 }
 

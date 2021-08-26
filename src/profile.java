@@ -76,19 +76,18 @@ public class profile extends JPanel{
         headerPanel.add(header);
         headerPanel.add(buttonPanel);
         String uname,fname,em,pwd;
-        String userpass="Krasinski";
         add(headerPanel);
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
             Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "safwan");
-            String query = "select * from users where username = ?";
+            String query = "select * from reg where username = ?";
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, userpass);
+            pstmt.setString(1, obj.getCustomerName());
             ResultSet rst = pstmt.executeQuery();
             System.out.println("Connection successful");
             while (rst.next())
             {
-                if(rst.getString("username").equals(userpass))
+                if(rst.getString("username").equals(obj.getCustomerName()))
                 {
                     uname=rst.getString("username");
                     fname=rst.getString("fullname");

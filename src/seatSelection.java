@@ -91,7 +91,6 @@ public class seatSelection extends JPanel{
                     String joinedSeats = getSeats()+selectedSeats;
                     obj.setJoinedSeats(joinedSeats);
                     obj.setSeatNumbers(selectedSeats);
-                    obj.setCustomerName("John");
                     removeAll();
                     repaint();
                     paymentsPage payP = new paymentsPage(obj);

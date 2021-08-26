@@ -12,7 +12,7 @@ import java.sql.*;
 //import bootathon.AddMovie;
 //import bootathon.DeleteMovie;
 //import bootathon.Showinfo;
-public class Admin extends JFrame implements ActionListener,ItemListener{
+public class Admin extends JPanel implements ActionListener,ItemListener{
 
     /**
      *8 @param args the command line arguments
@@ -101,14 +101,11 @@ public class Admin extends JFrame implements ActionListener,ItemListener{
         slot.add(deleteMoviePanel,"Delete Movie");
         slot.add(showinfo,"Update Timing");
         add(slot,BorderLayout.CENTER);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setSize(950,950);
         setVisible(true);
         
-    }
-    public static void main(String[] args) {
-        new Admin();
     }
 
     @Override
