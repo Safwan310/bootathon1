@@ -46,18 +46,9 @@ public class Admin extends JPanel implements ActionListener,ItemListener{
         txt1.setForeground(Color.YELLOW);
 
 
-        JButton profileButton = new JButton("Profile");
-        profileButton.setFont(adminFont);
-        profileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
 
         nav.add(backButton,BorderLayout.WEST);
         nav.add(txt1,BorderLayout.CENTER);
-        nav.add(profileButton,BorderLayout.EAST);
         nav.setPreferredSize(new Dimension(50,50));
 
         nav.setBackground(Color.BLACK);

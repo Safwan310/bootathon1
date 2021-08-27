@@ -18,19 +18,24 @@ import java.sql.*;
 public class AddMovie extends JPanel implements ActionListener{
     Container cont1;
     JTextField textName,textImage;
-    JButton addButton;
-    JComboBox<String> playingStatus;
+    JTextArea movDesc;
+    JButton addButton,yesButton,noButton,changeButton;
    // JComboBox timingDrop;
     JLabel movieName,movieImage,movieStatus;
-    JPanel imgPanel, namePanel, buttonPanel,statusPanel;
+    JPanel imgPanel, namePanel, buttonPanel,statusPanel,choicePanel;
+    String showStatus = "";
     AddMovie()
     {
         Font adminFont = new Font(null).deriveFont(25.0f);
-
-        playingStatus = new JComboBox<>();
-        playingStatus.setFont(adminFont);
-        playingStatus.addItem("Yes");
-        playingStatus.addItem("No");
+        choicePanel = new JPanel();
+        choicePanel.setLayout(new GridLayout(1,3));
+        yesButton = new JButton("Yes");
+        noButton = new JButton("No");
+        changeButton = new JButton("Change");
+        changeButton.setEnabled(false);
+        choicePanel.add(yesButton);
+        choicePanel.add(noButton);
+        choicePanel.add(changeButton);
 
         setLayout(new GridLayout(4,1));
         //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -67,13 +72,60 @@ public class AddMovie extends JPanel implements ActionListener{
         imgPanel.add(textImage);
 
         statusPanel = new JPanel(new GridLayout(1,2));
-        statusPanel.setBorder(new EmptyBorder(90,40,90,40));
+        statusPanel.setBorder(new EmptyBorder(30,40,30,40));
         statusPanel.add(movieStatus);
-        statusPanel.add(playingStatus);
+        statusPanel.add(choicePanel);
 
         buttonPanel = new JPanel(new GridLayout(1,1));
         buttonPanel.setBorder(new EmptyBorder(90,40,90,40));
         buttonPanel.add(addButton);
+
+        yesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showStatus = "Y";
+                yesButton.setEnabled(false);
+                noButton.setEnabled(false);
+                changeButton.setEnabled(true);
+            }
+        });
+
+        noButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showStatus = "N";
+                statusPanel.removeAll();
+                statusPanel.repaint();
+                statusPanel.setLayout(new GridLayout(2,2));
+                statusPanel.add(movieStatus);
+                statusPanel.add(choicePanel);
+                yesButton.setEnabled(false);
+                noButton.setEnabled(false);
+                changeButton.setEnabled(true);
+                JLabel desc = new JLabel("Add Description",JLabel.CENTER);
+                desc.setFont(adminFont);
+                movDesc = new JTextArea();
+                statusPanel.add(desc);
+                statusPanel.add(movDesc);
+                statusPanel.revalidate();
+            }
+        });
+
+        changeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showStatus = "";
+                statusPanel.removeAll();
+                statusPanel.repaint();
+                statusPanel.setLayout(new GridLayout(1,2));
+                statusPanel.add(movieStatus);
+                statusPanel.add(choicePanel);
+                yesButton.setEnabled(true);
+                noButton.setEnabled(true);
+                changeButton.setEnabled(false);
+                statusPanel.revalidate();
+            }
+        });
 
         add(namePanel);
         add(imgPanel);
@@ -92,25 +144,19 @@ public class AddMovie extends JPanel implements ActionListener{
             {
                 String nameMovie = textName.getText();
                 String imageMovie = textImage.getText();
-                String showStatus = "";
-                String temp = (String) playingStatus.getSelectedItem();
-                if(temp.equals("Yes")){
-                    showStatus += "Y";
-                }
-                else if(temp.equals("No")){
-                    showStatus += "N";
-                }
-                if(nameMovie.equals("")||imageMovie.equals("")||temp.equals("")){
+
+                if(nameMovie.equals("")||imageMovie.equals("")||showStatus.equals("")){
                     JOptionPane.showMessageDialog(this,"Please enter all the fields");
                 }
 
                 else{
                 Connection conn = MoviesDatabase.getConnection();
-                String query = "insert into movie values(?,?,?)";
+                String query = "insert into movie values(?,?,?,?)";
                 PreparedStatement pstmt = conn.prepareStatement(query);
                 pstmt.setString(1,imageMovie);
                 pstmt.setString(2,nameMovie);
                 pstmt.setString(3,showStatus);
+                pstmt.setString(4,movDesc.getText());
                 pstmt.executeQuery();
                 conn.setAutoCommit(true);
                 JOptionPane.showMessageDialog(this, "Movie Added");}
@@ -118,7 +164,7 @@ public class AddMovie extends JPanel implements ActionListener{
             }
             catch(Exception exc)
             {
-                JOptionPane.showMessageDialog(this,exc.toString());
+                JOptionPane.showMessageDialog(this,"Error at add movies: "+exc.toString());
             }
         }
     }

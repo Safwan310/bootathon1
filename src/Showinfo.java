@@ -7,6 +7,7 @@
 //import bootathon.MoviesDatabase;
 import java.io.*;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.sql.*;
 import java.awt.event.*;
@@ -14,16 +15,48 @@ import java.util.*;
 class Showinfo extends JPanel
 {
     Font adminFont = new Font(null).deriveFont(25.0f);
-
+    JPanel rollOverPanel = new JPanel(new BorderLayout());
+    JLabel rollLabel = new JLabel("Are you sure? Do you want to roll over the dates? \nThis action will transfer the show schedule for day 2 to day 1, day 3 to day 2\n And Delete the previous day1 schedule.");
+    JButton rollButton = new JButton("Roll over schedule");
  	JTabbedPane t;
  	Showinfo()
     {
+        rollLabel.setFont(adminFont);
+        rollButton.setFont(adminFont);
+
+        rollOverPanel.add(rollLabel,BorderLayout.CENTER);
+        rollOverPanel.add(rollButton,BorderLayout.EAST);
+        rollOverPanel.setBorder(new EmptyBorder(400,25,400,25));
   		t=new JTabbedPane(JTabbedPane.LEFT);
   		t.setFont(adminFont);
   		String title1="DAY 1",title2="DAY 2",title3="DAY 3";
   		t.addTab(title1,new A("1"));
   		t.addTab(title2,new A("2"));
   		t.addTab(title3,new A("3"));
+  		t.addTab("ROLL",rollOverPanel);
+
+  		rollButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Connection conn = MoviesDatabase.getConnection();
+                String query0 = "delete from showinfo where dayinfo = 1";
+                String query = "update showinfo set dayinfo = 1 where dayinfo = 2";
+                String query2 = "update showinfo set dayinfo = 2 where dayinfo = 3";
+                try {
+                    Statement stmt = conn.createStatement();
+                    stmt.executeQuery(query0);
+                    System.out.println("Day 1 schedule deleted");
+                    stmt.executeQuery(query);
+                    System.out.println("Day 2 rolled over to Day1");
+                    stmt.executeQuery(query2);
+                    System.out.println("Day 3 rolled over to Day2");
+                    JOptionPane.showMessageDialog(rollOverPanel,"Dates rolled over. NOTE:Ensure that you update schedule for day 3");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+            }
+        });
 
   		setLayout(new GridLayout(1,1));
   		add(t);

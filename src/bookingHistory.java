@@ -45,31 +45,6 @@ public class bookingHistory extends JPanel{
                 tickets.add(ticketButton);
             }
 
-            /*for(int i = 0; i < resultSetList.size(); i++){
-
-                JLabel username = new JLabel("Username: "+resultSetList.get(i).getString("username"));
-                JLabel movie = new JLabel("Movie: "+resultSetList.get(i).getString("movie"));
-                JLabel screen = new JLabel("Screen: "+resultSetList.get(i).getString("screen"));
-                JLabel seats = new JLabel("Seats: "+resultSetList.get(i).getString("seats"));
-                JLabel date = new JLabel("Date: "+resultSetList.get(i).getString("dateinfo"));
-                JLabel time = new JLabel("Time: "+resultSetList.get(i).getString("time"));
-                JLabel amount = new JLabel("Amount: "+resultSetList.get(i).getString("amount"));
-
-                JPanel dummy = new JPanel();
-                dummy.setVisible(true);
-                dummy.setLayout(new GridLayout(3,3));
-
-                dummy.add(username);
-                dummy.add(movie);
-                dummy.add(screen);
-                dummy.add(seats);
-                dummy.add(date);
-                dummy.add(time);
-                dummy.add(amount);
-
-                tickets.add(dummy);
-            }*/
-
             mother.setLayout(new GridLayout(tickets.size(),1,10,10));
             for(int i = 0; i < tickets.size(); i++){
                 mother.add(tickets.get(i));

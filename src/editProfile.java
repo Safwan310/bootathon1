@@ -31,18 +31,17 @@ interface SimpleDocumentListener extends DocumentListener {
         update(e);
     }
 }
-class editProfile extends JFrame{
+class editProfile extends JPanel{
     JLabel userLabel,fullNameLabel,emailLabel,phoneLabel,passwordLabel,emptyLabel;
     JButton editButton,saveButton;
     JTextField userNameField,fullNameField,emailField,passwordField,phoneField,confirmPasswordField;//here set username
-    JPanel userPanel,namePanel,emailPanel,phonePanel,passwordPanel,emptyPanel,passwordFieldPanel;
-    editProfile(){
-
+    JPanel userPanel,namePanel,emailPanel,phonePanel,passwordPanel,emptyPanel,passwordFieldPanel,mainPanel;
+    editProfile(bookingBeans obj){
+        mainPanel = new JPanel();
         Font appFont = new Font(null).deriveFont(20.0f);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new GridLayout(6,1));
-        setVisible(true);
-
+        mainPanel.setLayout(new GridLayout(6,1));
+        mainPanel.setVisible(true);
+        setLayout(new GridLayout(1,1));
         setSize(950,950);
 
         userNameField=new JTextField("");
@@ -125,20 +124,21 @@ class editProfile extends JFrame{
         emptyPanel.add(editButton);
         saveButton.setVisible(false);
 
-        add(userPanel);
-        add(namePanel);
-        add(emailPanel);
-        add(phonePanel);
-        add(passwordPanel);
-        add(emptyPanel);
+        mainPanel.add(userPanel);
+        mainPanel.add(namePanel);
+        mainPanel.add(emailPanel);
+        mainPanel.add(phonePanel);
+        mainPanel.add(passwordPanel);
+        mainPanel.add(emptyPanel);
 
+        add(mainPanel);
 
         //add(saveButton);
         try{
             Class.forName("oracle.jdbc.OracleDriver");
             Connection con = MoviesDatabase.getConnection();
             Statement st=con.createStatement();
-            ResultSet rs=st.executeQuery("select * from reg where username='dumbledore'");
+            ResultSet rs=st.executeQuery("select * from reg where username='"+obj.getCustomerName()+"'");
             while(rs.next()){
 
                 userNameField.setText(rs.getString(1));
@@ -155,19 +155,17 @@ class editProfile extends JFrame{
                 editButton.setVisible(true);
 
                 setVisible(true);
-                setTitle("View Mode");
-                con.close();
+                //con.close();
 
                 editButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
-                        userNameField.setEditable(true);
                         fullNameField.setEditable(true);
                         emailField.setEditable(true);
                         passwordField.setEditable(true);
-
                         phoneField.setEditable(true);
+
                         passwordFieldPanel.removeAll();
                         passwordFieldPanel.repaint();
                         passwordFieldPanel.setLayout(new GridLayout(2,1));
@@ -187,8 +185,6 @@ class editProfile extends JFrame{
                         passwordFieldPanel.add(confirmPasswordField);
                         passwordFieldPanel.revalidate();
 
-                        setTitle("Edit Mode");
-
                         emptyPanel.remove(editButton);
                         emptyPanel.repaint();
                         saveButton.setVisible(true);
@@ -205,9 +201,9 @@ class editProfile extends JFrame{
                             Connection con = MoviesDatabase.getConnection();
                             Statement st=con.createStatement();
                             System.out.println("Here");
-                            st.executeUpdate("update reg set username='"+userNameField.getText()+"' ,fullname='"+fullNameField.getText()+"' ,Email='"+emailField.getText()+"' ,Password='"+passwordField.getText()+"' ,Phone='"+phoneField.getText()+"' where username='dumbledore'");
+                            st.executeUpdate("update reg set username='"+userNameField.getText()+"' ,fullname='"+fullNameField.getText()+"' ,Email='"+emailField.getText()+"' ,Password='"+passwordField.getText()+"' ,Phone='"+phoneField.getText()+"' where username='"+obj.getCustomerName()+"'");
                             System.out.println("updated");
-                            con.close();
+                            //con.close();
                             //setVisible(false);
 
                             userNameField.setEditable(false);
@@ -221,7 +217,7 @@ class editProfile extends JFrame{
                             passwordFieldPanel.setLayout(new GridLayout(1,1));
                             passwordFieldPanel.add(passwordField);
                             passwordFieldPanel.revalidate();
-
+                            JOptionPane.showMessageDialog(mainPanel,"Profile Updated");
                             emptyPanel.remove(saveButton);
                             emptyPanel.repaint();
                             emptyPanel.add(editButton);
@@ -234,16 +230,11 @@ class editProfile extends JFrame{
                 });
             }
             System.out.println("Here");
-            con.close();
+            //con.close();
         }
         catch(Exception e1){
             System.out.println("Error at edit profile 2: "+e1);
         }
 
-    }
-}
-class ViewForm{
-    public static void main(String args[]){
-        new editProfile();
     }
 }

@@ -3,9 +3,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,33 +28,52 @@ public class movieBookingPage extends JPanel {
 
         mother = new JPanel();
         mother.setLayout(new GridLayout(4,1,5,10));
+        mother.setBackground(Color.BLACK);
 
         movieInfo = new JPanel();
         movieInfo.setLayout(new BorderLayout());
+        movieInfo.setBackground(Color.BLACK);
 
         dateInfo = new JPanel();
         dateInfo.setLayout(new GridLayout(1,5,5,5));
+        dateInfo.setBackground(Color.BLACK);
 
         screenInfo = new JPanel();
         screenInfo.setLayout(new GridLayout(1,5,5,5));
+        screenInfo.setBackground(Color.BLACK);
 
         timeInfo = new JPanel();
         timeInfo.setLayout(new GridLayout(1,5,5,5));
+        timeInfo.setBackground(Color.BLACK);
 
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(1,1));
 
-        BufferedImage movieOne = ImageIO.read(new File(imgPath));
-        JLabel movieOneImg = new JLabel(new ImageIcon(movieOne));
+        URL url = new URL(imgPath);
+        Image image = ImageIO.read(url.openStream());
+        JLabel movieOneImg = new JLabel(new ImageIcon(image));
         JLabel movieOneTitle = new JLabel(movieName,SwingConstants.CENTER);
+        movieOneTitle.setForeground(Color.WHITE);
         movieOneTitle.setFont(new Font(null).deriveFont(20.0f));
 
         JLabel dateLabel = new JLabel("Select Date",SwingConstants.CENTER);
         dateLabel.setFont(bookingFont);
-        day1 = new JButton("16/08/2021");
-        day2 = new JButton("17/08/2021");
-        day3 = new JButton("18/08/2021");
+        dateLabel.setForeground(Color.WHITE);
+
+        LocalDate ld = LocalDate.now();
+        day1 = new JButton(String.valueOf(ld));
+        day1.setBackground(Color.DARK_GRAY);
+        day1.setForeground(Color.WHITE);
+        day2 = new JButton(String.valueOf(ld.plusDays(1)));
+        day2.setForeground(Color.WHITE);
+        day2.setBackground(Color.DARK_GRAY);
+        day3 = new JButton(String.valueOf(ld.plusDays(2)));
+        day3.setForeground(Color.WHITE);
+        day3.setBackground(Color.DARK_GRAY);
+
         JButton changeDay = new JButton("Change Date");
+        changeDay.setForeground(Color.WHITE);
+        changeDay.setBackground(Color.DARK_GRAY);
         changeDay.setEnabled(false);
         changeDay.setFont(bookingFont);
 
@@ -120,11 +141,20 @@ public class movieBookingPage extends JPanel {
         JLabel screenLabel = new JLabel("Select screen",SwingConstants.CENTER);
         screenLabel.setFont(bookingFont);
         screen1 = new JButton("Screen1");
+        screen1.setForeground(Color.WHITE);
+        screen1.setBackground(Color.DARK_GRAY);
         screen2 = new JButton("Screen2");
+        screen2.setForeground(Color.WHITE);
+        screen2.setBackground(Color.DARK_GRAY);
         screen3 = new JButton("Screen3");
+        screen3.setForeground(Color.WHITE);
+        screen3.setBackground(Color.DARK_GRAY);
         JButton changeScreen = new JButton("Change Screen");
+        changeScreen.setForeground(Color.WHITE);
+        changeScreen.setBackground(Color.DARK_GRAY);
         changeScreen.setEnabled(false);
         changeScreen.setFont(bookingFont);
+        screenLabel.setForeground(Color.WHITE);
 
         List<JButton> screenList = new ArrayList<>();
         screenList.add(screen1);
@@ -133,10 +163,19 @@ public class movieBookingPage extends JPanel {
 
         JLabel timeLabel = new JLabel("Select Timing",SwingConstants.CENTER);
         timeLabel.setFont(bookingFont);
+        timeLabel.setForeground(Color.WHITE);
         time1 = new JButton("Morning: 9AM-12:00PM");
+        time1.setForeground(Color.WHITE);
+        time1.setBackground(Color.DARK_GRAY);
         time2 = new JButton("After noon: 2PM-5PM");
+        time2.setForeground(Color.WHITE);
+        time2.setBackground(Color.DARK_GRAY);
         time3 = new JButton("Night: 8PM-11PM");
+        time3.setForeground(Color.WHITE);
+        time3.setBackground(Color.DARK_GRAY);
         JButton changeTime = new JButton("Change Time");
+        changeTime.setForeground(Color.WHITE);
+        changeTime.setBackground(Color.DARK_GRAY);
         changeTime.setEnabled(false);
         changeTime.setFont(bookingFont);
 
@@ -303,6 +342,8 @@ public class movieBookingPage extends JPanel {
             }
         });
         JButton bookTickets = new JButton("Book Tickets");
+        bookTickets.setForeground(Color.WHITE);
+        bookTickets.setBackground(Color.DARK_GRAY);
         bookTickets.setFont(bookingFont);
         bookTickets.addActionListener(new ActionListener() {
             @Override
@@ -379,12 +420,15 @@ public class movieBookingPage extends JPanel {
         while(rst.next()){
             if(rst.getString("dayinfo").equals("1")){
                 day1.setEnabled(true);
+                day1.setForeground(Color.green);
             }
             if(rst.getString("dayinfo").equals("2")){
                 day2.setEnabled(true);
+                day2.setForeground(Color.green);
             }
             if(rst.getString("dayinfo").equals("3")){
                 day3.setEnabled(true);
+                day3.setForeground(Color.green);
             }
         }
     }
@@ -399,12 +443,15 @@ public class movieBookingPage extends JPanel {
         while(rst.next()){
             if(rst.getString("screeninfo").equals("1")){
                 screen1.setEnabled(true);
+                screen1.setForeground(Color.green);
             }
             if(rst.getString("screeninfo").equals("2")){
                 screen2.setEnabled(true);
+                screen2.setForeground(Color.green);
             }
             if(rst.getString("screeninfo").equals("3")){
                 screen3.setEnabled(true);
+                screen3.setForeground(Color.green);
             }
         }
     }
@@ -420,12 +467,15 @@ public class movieBookingPage extends JPanel {
         while(rst.next()){
             if(rst.getString("timing1").equals("YES")){
                 time1.setEnabled(true);
+                time1.setForeground(Color.green);
             }
             if(rst.getString("timing2").equals("YES")){
                 time2.setEnabled(true);
+                time2.setForeground(Color.green);
             }
             if(rst.getString("timing3").equals("YES")){
                 time3.setEnabled(true);
+                time3.setForeground(Color.green);
             }
         }
     }

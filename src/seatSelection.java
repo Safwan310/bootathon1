@@ -27,20 +27,28 @@ public class seatSelection extends JPanel{
 
         header = new JPanel();
         header.setLayout(new BorderLayout());
+        header.setBackground(Color.BLACK);
 
         side = new JPanel();
         side.setLayout(new GridLayout(1,1));
+        side.setBackground(Color.BLACK);
 
         seats = new JPanel();
         seats.setLayout(new GridLayout(5,10,5,5));
+        seats.setBackground(Color.BLACK);
 
         title  = new JPanel();
         title.setLayout(new GridLayout(1,3));
+        title.setBackground(Color.BLACK);
 
         JLabel tit = new JLabel("Enter the number of viewers", SwingConstants.CENTER);
         tit.setFont(new Font(null).deriveFont(20.0f));
+        tit.setForeground(Color.WHITE);
 
         JButton changeSeatCount = new JButton("Change Seat Count");
+        changeSeatCount.setBackground(Color.BLACK);
+        changeSeatCount.setForeground(Color.WHITE);
+        changeSeatCount.setFont(new Font(null).deriveFont(20.0f));
 
         JComboBox<Integer> tf = new JComboBox<>();
         tf.addItem(1);
@@ -53,6 +61,8 @@ public class seatSelection extends JPanel{
         tf.addItem(8);
         tf.addItem(9);
         tf.addItem(10);
+        tf.setBackground(Color.DARK_GRAY);
+        tf.setForeground(Color.WHITE);
 
         tf.addActionListener(new ActionListener() {
             @Override
@@ -83,8 +93,12 @@ public class seatSelection extends JPanel{
         JLabel sideLabel = new JLabel("Screen this side",SwingConstants.CENTER);
         sideLabel.setFont(new Font(null).deriveFont(20.0f));
         side.add(sideLabel);
+        sideLabel.setForeground(Color.WHITE);
 
         JButton bookTheSeats = new JButton("Book the Seats");
+        bookTheSeats.setFont(new Font(null).deriveFont(20.0f));
+        bookTheSeats.setBackground(Color.DARK_GRAY);
+        bookTheSeats.setForeground(Color.WHITE);
         bookTheSeats.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -102,6 +116,8 @@ public class seatSelection extends JPanel{
 
         changeSeatSelection = new JButton("Change Seat Selection");
         changeSeatSelection.setFont(new Font(null).deriveFont(20.0f));
+        changeSeatSelection.setBackground(Color.DARK_GRAY);
+        changeSeatSelection.setForeground(Color.WHITE);
         changeSeatSelection.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -176,6 +192,8 @@ public class seatSelection extends JPanel{
             }
             else{
                 Button but2 = new Button(String.valueOf(i));
+                but2.setBackground(Color.DARK_GRAY);
+                but2.setForeground(Color.WHITE);
                 but2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {

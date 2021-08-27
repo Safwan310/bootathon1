@@ -1,6 +1,8 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +14,18 @@ public class homepage extends JPanel
     bookingBeans ob = new bookingBeans();
     JLabel current, upcoming,txt1;
     movieBookingPage moviebkPage;
+    upcomingMoviePage upbkPage;
 
-    homepage(String username) throws Exception {
+    homepage(String username,String email) throws Exception {
 
 
         Font bookingFont = new Font(null).deriveFont(20.0f);
 
+        System.setProperty("http.agent", "Chrome");
 
         ob.setCustomerName(username);
+        ob.setEmailInfo(email);
+
         System.out.println(username);
 
         current = new JLabel("Now Playing",JLabel.CENTER);
@@ -124,7 +130,9 @@ public class homepage extends JPanel
             JPanel imgPanel = new JPanel();
             imgPanel.setBackground(Color.BLACK);
             imgPanel.setLayout(new GridLayout(1, 1));
-            JLabel imgLbl = new JLabel(new ImageIcon(nowPlayingMap.get(nowPlayingMovie)));
+            URL url = new URL(nowPlayingMap.get(nowPlayingMovie));
+            Image image = ImageIO.read(url.openStream());
+            JLabel imgLbl = new JLabel(new ImageIcon(image));
             imgPanel.add(imgLbl);
 
             nowButton.add(imgPanel, BorderLayout.CENTER);
@@ -159,18 +167,20 @@ public class homepage extends JPanel
             JPanel imgPanel = new JPanel();
             imgPanel.setLayout(new GridLayout(1, 1));
             imgPanel.setBackground(Color.BLACK);
-            JLabel imgLbl = new JLabel(new ImageIcon(upComingMap.get(upComingMovie)));
+            URL url = new URL(upComingMap.get(upComingMovie));
+            Image image = ImageIO.read(url.openStream());
+            JLabel imgLbl = new JLabel(new ImageIcon(image));
             imgPanel.add(imgLbl);
 
             upcButton.add(imgPanel, BorderLayout.CENTER);
 
             upcButton.addActionListener(e -> {
                 try {
-                    moviebkPage = new movieBookingPage(upComingMap.get(upcLabel.getText()), upcLabel.getText(),ob);
-                } catch (IOException | SQLException | ClassNotFoundException ioException) {
+                    upbkPage = new upcomingMoviePage(upComingMap.get(upcLabel.getText()), upcLabel.getText());
+                } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
-                parent.add(moviebkPage, upcLabel.getText());
+                parent.add(upbkPage, upcLabel.getText());
                 cardLayout.show(parent, upcLabel.getText());
             });
 

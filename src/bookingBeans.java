@@ -1,5 +1,6 @@
 public class bookingBeans {
     private String customerName;
+    private String emailInfo;
     private String movieInfo;
     private String dayInfo;
     private String timeInfo;
@@ -61,5 +62,13 @@ public class bookingBeans {
 
     public String getJoinedSeats() {
         return joinedSeats;
+    }
+
+    public void setEmailInfo(String emailInfo) {
+        this.emailInfo = emailInfo;
+    }
+
+    public String getEmailInfo() {
+        return emailInfo;
     }
 }

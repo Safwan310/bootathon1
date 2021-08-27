@@ -25,7 +25,7 @@ class DoLogin extends JPanel{
 
         emailField=new JTextField("");
         emailField.setFont(appFont);
-        passwordField=new JTextField("");
+        passwordField=new JPasswordField("");
         passwordField.setFont(appFont);
         loginButton=new JButton("Login");
         loginButton.setFont(appFont);
@@ -69,6 +69,7 @@ class DoLogin extends JPanel{
 
                             if(rs.getString("password").equals(str_password)){
                                 String username = rs.getString("username");
+                                String email = rs.getString("email");
                                 if(DoReg.userTypeBox.getSelectedItem().equals("Admin")){
                                     if(rs.getString("isadmin").equals("Yes")){
                                         JOptionPane.showMessageDialog(jp,"Admin login successful");
@@ -87,7 +88,7 @@ class DoLogin extends JPanel{
                                     JOptionPane.showMessageDialog(jp,"Welcome! User");
                                     DoReg.mother.removeAll();
                                     DoReg.mother.repaint();
-                                    DoReg.mother.add(new homepage(username));
+                                    DoReg.mother.add(new homepage(username,email));
                                     DoReg.mother.revalidate();
                                     //HomePage code here
                                     //setVisible to false then put Classname.main(null) include package name in all java

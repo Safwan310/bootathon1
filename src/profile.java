@@ -1,3 +1,4 @@
+import javax.jws.soap.SOAPBinding;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -29,6 +30,8 @@ public class profile extends JPanel{
         profileHeader.setLayout(new BorderLayout());
 
         JButton profileBackButton = new JButton("Back to Profile");
+        profileBackButton.setForeground(Color.WHITE);
+        profileBackButton.setBackground(Color.DARK_GRAY);
         profileBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -44,24 +47,24 @@ public class profile extends JPanel{
                 slot.revalidate();
             }
         });
-        JLabel profileTitle = new JLabel("Profile");
 
         JPanel profileInfoPanel = new JPanel();
         profileInfoPanel.setLayout(new BorderLayout());
-
+        profileInfoPanel.setBackground(Color.BLACK);
         profileHeader.add(profileBackButton,BorderLayout.WEST);
-        profileHeader.add(profileTitle,BorderLayout.CENTER);
 
         CardLayout cardLayout = new CardLayout();
 
         
 
         JPanel headerPanel = new JPanel();
+        headerPanel.setBackground(Color.BLACK);
         headerPanel.setLayout(new GridLayout(2,1));
         headerPanel.setVisible(true);
 
         JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new GridLayout(3,1));
+        contentPanel.setBackground(Color.BLACK);
+        contentPanel.setLayout(new GridLayout(4,1));
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(1,2));
@@ -71,6 +74,7 @@ public class profile extends JPanel{
         Font headerFont = new Font(null).deriveFont(31.0f);
 
         JLabel header=new JLabel("MY PROFILE", JLabel.CENTER);
+        header.setForeground(Color.YELLOW);
         header.setFont(headerFont);
         //header.setBounds(160,10,400,100);
         headerPanel.add(header);
@@ -92,13 +96,17 @@ public class profile extends JPanel{
                     uname=rst.getString("username");
                     fname=rst.getString("fullname");
                     em=rst.getString("email");
-                    pwd=rst.getString("password");
+                    pwd=rst.getString("phone");
 
 
                     JLabel Username=new JLabel("Username:"+uname);
+                    Username.setForeground(Color.WHITE);
                     JLabel Fullname=new JLabel("Full Name:"+fname);
+                    Fullname.setForeground(Color.WHITE);
                     JLabel Email=new JLabel("Email:"+em);
-                    JLabel Password=new JLabel("Password:"+pwd);
+                    Email.setForeground(Color.WHITE);
+                    JLabel Password=new JLabel("Phone:"+pwd);
+                    Password.setForeground(Color.WHITE);
 
 
                     //Username.setBounds(50, 150, 200, 50);
@@ -114,7 +122,7 @@ public class profile extends JPanel{
                     contentPanel.add(Username);
                     contentPanel.add(Fullname);
                     contentPanel.add(Email);
-
+                    contentPanel.add(Password);
                 }
                 else
                 {
@@ -127,6 +135,8 @@ public class profile extends JPanel{
             profileInfoPanel.add(contentPanel,BorderLayout.CENTER);
 
             JButton bookHist=new JButton("Booking History");
+            bookHist.setForeground(Color.WHITE);
+            bookHist.setBackground(Color.DARK_GRAY);
             //bookHist.setBounds(50,450,200,50);
             bookHist.setFont(proFont);
             buttonPanel.add(bookHist);
@@ -144,14 +154,20 @@ public class profile extends JPanel{
             });
 
             JButton Edit=new JButton("Edit Profile");
-            //Edit.setBounds(250,450,200,50);
+            Edit.setForeground(Color.WHITE);
+            Edit.setBackground(Color.DARK_GRAY);
+
             Edit.setFont(proFont);
             buttonPanel.add(Edit);
 
+            editProfile eP = new editProfile(obj);
             Edit.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-
+                    container.removeAll();
+                    container.repaint();
+                    container.add(eP);
+                    container.revalidate();
                 }
             });
 
@@ -160,6 +176,7 @@ public class profile extends JPanel{
 
             container.add(profileInfoPanel,"Profile");
             container.add(history,"Booking History");
+            container.setBackground(Color.BLACK);
 
             slot.add(profileHeader,BorderLayout.NORTH);
             slot.add(container,BorderLayout.CENTER);
