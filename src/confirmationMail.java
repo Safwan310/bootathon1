@@ -3,10 +3,10 @@ import javax.mail.*;
 import javax.mail.internet.*;
 public class confirmationMail {
     confirmationMail(bookingBeans obj,String screenInfo, String seatInfo, String dateInfo,String timeInfo) {
-        final String userName = "19cs041@skcet.ac.in";
-        final String password = "saf310wan2001";
+        final String userName = "EMAIL";
+        final String password = "PASSWORD";
 
-        final String from = "19cs041@skcet.ac.in";
+        final String from = "EMAIL";
         final String to = obj.getEmailInfo();
 
         Properties prop = new Properties();
